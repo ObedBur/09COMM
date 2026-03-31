@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  /* Design Tokens 09COMM - Orange & Anthracite */
+  --color-primary: #FF5500;
+  --color-primary-container: #FF7033;
+  --color-on-primary: #FFFFFF;
+  
+  --color-secondary: #1A1A1A;
+  --color-secondary-container: #F3F3F3;
+  --color-secondary-fixed: #2C1A14;
+  --color-on-secondary-fixed: #FFFFFF;
+  --color-secondary-fixed-dim: #1d110d;
+
+  --color-on-surface: #1A1A1A;
+  --color-on-surface-variant: #64748b;
+  --color-outline-variant: #e2e8f0;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low: #F9F9FB;
+  
+  --font-headline: 'Outfit', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  
+  --background-image-gradient-mesh: radial-gradient(at 0% 0%, rgba(255, 85, 0, 0.05) 0px, transparent 50%), 
+                                   radial-gradient(at 50% 0%, rgba(26, 26, 26, 0.03) 0px, transparent 50%),
+                                   radial-gradient(at 100% 0%, rgba(255, 85, 0, 0.05) 0px, transparent 50%);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+@layer utilities {
+  .sonic-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 85, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 85, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold transition-all duration-300 rounded-lg;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white border border-primary hover:bg-secondary-fixed hover:border-secondary-fixed;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white border border-secondary hover:bg-white hover:text-secondary;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-secondary border border-secondary hover:bg-secondary hover:text-white;
+  }
+  
+  .btn-ghost.orange {
+    @apply text-primary border-primary hover:bg-primary hover:text-white;
+  }
+}
+
+body {
+  @apply bg-white text-secondary font-body antialiased;
+}

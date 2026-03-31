@@ -1,0 +1,37 @@
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-outline-variant/10">
+  <div class="flex justify-between items-center px-4 sm:px-8 py-3 max-w-screen-2xl mx-auto">
+    <div class="text-2xl font-bold tracking-tighter text-primary">
+      <a routerLink="/">09.COMM</a>
+    </div>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a routerLink="/music" routerLinkActive="text-primary font-bold" class="text-slate-600 hover:text-primary transition-colors text-sm font-medium">Projets</a>
+      <a routerLink="/about" routerLinkActive="text-primary font-bold" class="text-slate-600 hover:text-primary transition-colors text-sm font-medium">Vision</a>
+      <div class="h-4 w-px bg-outline-variant/30"></div>
+      <a routerLink="/contact" class="text-slate-600 hover:text-primary text-sm font-medium">Se connecter</a>
+      <a routerLink="/contact" class="btn btn-primary px-4 py-2 text-xs">Candidature</a>
+    </div>
+
+    <!-- Mobile menu button -->
+    <div class="md:hidden">
+      <button (click)="toggleMenu()" aria-label="Menu" class="p-2 rounded-md text-slate-800 hover:bg-primary/5 transition-colors">
+        <span class="material-symbols-outlined">{{ menuOpen ? 'close' : 'menu' }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-primary/10 to-transparent"></div>
+
+  <!-- Mobile menu panel -->
+  <div *ngIf="menuOpen" class="md:hidden bg-white border-t border-outline-variant/10 shadow-xl animate-in slide-in-from-top-2 duration-200">
+    <div class="px-4 py-6 space-y-4">
+      <a (click)="toggleMenu()" routerLink="/music" class="block text-xl font-semibold text-slate-700 hover:text-primary">Projets</a>
+      <a (click)="toggleMenu()" routerLink="/about" class="block text-xl font-semibold text-slate-700 hover:text-primary">Vision</a>
+      <a (click)="toggleMenu()" routerLink="/contact" class="block text-xl font-semibold text-slate-700 hover:text-primary">Se connecter</a>
+      <div class="pt-4">
+        <a (click)="toggleMenu()" routerLink="/contact" class="btn btn-primary w-full py-4">Lancer un projet</a>
+      </div>
+    </div>
+  </div>
+</nav>
