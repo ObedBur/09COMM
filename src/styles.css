@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 @import "tailwindcss";
 @tailwind base;
 @tailwind components;
@@ -33,8 +34,6 @@
                                    radial-gradient(at 50% 0%, rgba(26, 26, 26, 0.03) 0px, transparent 50%),
                                    radial-gradient(at 100% 0%, rgba(122, 62, 157, 0.05) 0px, transparent 50%);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
 @layer utilities {
   .sonic-grid {
