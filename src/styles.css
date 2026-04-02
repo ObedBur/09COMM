@@ -1,29 +1,37 @@
 @import "tailwindcss";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @theme {
-  /* Design Tokens 09COMM - Orange & Anthracite */
-  --color-primary: #FF5500;
-  --color-primary-container: #FF7033;
+  /* Design Tokens 09COMM - Teal & Violet */
+  --color-primary: #2F6F6F;
+  --color-primary-dark: #255B5B;
+  --color-primary-container: #2F6F6F;
   --color-on-primary: #FFFFFF;
   
-  --color-secondary: #1A1A1A;
-  --color-secondary-container: #F3F3F3;
-  --color-secondary-fixed: #2C1A14;
+  --color-secondary: #7A3E9D;
+  --color-secondary-container: #E8D9F3;
+  --color-secondary-fixed: #7A3E9D;
   --color-on-secondary-fixed: #FFFFFF;
-  --color-secondary-fixed-dim: #1d110d;
+  --color-secondary-fixed-dim: #593066;
 
   --color-on-surface: #1A1A1A;
-  --color-on-surface-variant: #64748b;
-  --color-outline-variant: #e2e8f0;
+  --color-on-surface-variant: #6B7280;
+  --color-outline-variant: #E5E7EB;
   --color-surface-container-lowest: #FFFFFF;
-  --color-surface-container-low: #F9F9FB;
+  --color-surface-container-low: #F5F7FA;
+  --color-surface: #F5F7FA;
+  
+  /* Text colors */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B7280;
   
   --font-headline: 'Outfit', sans-serif;
   --font-body: 'Outfit', sans-serif;
   
-  --background-image-gradient-mesh: radial-gradient(at 0% 0%, rgba(255, 85, 0, 0.05) 0px, transparent 50%), 
+  --background-image-gradient-mesh: radial-gradient(at 0% 0%, rgba(47, 111, 111, 0.05) 0px, transparent 50%), 
                                    radial-gradient(at 50% 0%, rgba(26, 26, 26, 0.03) 0px, transparent 50%),
-                                   radial-gradient(at 100% 0%, rgba(255, 85, 0, 0.05) 0px, transparent 50%);
+                                   radial-gradient(at 100% 0%, rgba(122, 62, 157, 0.05) 0px, transparent 50%);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
@@ -31,31 +39,35 @@
 @layer utilities {
   .sonic-grid {
     background-image:
-      linear-gradient(to right, rgba(255, 85, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 85, 0, 0.03) 1px, transparent 1px);
+      linear-gradient(to right, rgba(47, 111, 111, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(47, 111, 111, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold transition-all duration-300 rounded-lg;
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold transition-all duration-200 rounded-lg;
   }
   
   .btn-primary {
-    @apply bg-primary text-white border border-primary hover:bg-secondary-fixed hover:border-secondary-fixed;
+    @apply bg-primary text-white border border-primary hover:bg-primary-dark hover:border-primary-dark hover:shadow-lg active:scale-95 transform;
   }
   
   .btn-secondary {
-    @apply bg-secondary text-white border border-secondary hover:bg-white hover:text-secondary;
+    @apply bg-secondary text-white border border-secondary hover:bg-secondary-fixed-dim hover:border-secondary-fixed-dim hover:shadow-lg active:scale-95 transform;
   }
   
   .btn-ghost {
-    @apply bg-transparent text-secondary border border-secondary hover:bg-secondary hover:text-white;
+    @apply bg-transparent text-primary border border-primary hover:bg-primary/10 hover:text-primary active:scale-95 transform;
   }
   
-  .btn-ghost.orange {
-    @apply text-primary border-primary hover:bg-primary hover:text-white;
+  .btn-outline {
+    @apply bg-transparent text-primary border border-primary hover:bg-primary hover:text-white active:scale-95 transform;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-1;
   }
 }
 

@@ -1,37 +1,94 @@
-<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-outline-variant/10">
-  <div class="flex justify-between items-center px-4 sm:px-8 py-3 max-w-screen-2xl mx-auto">
-    <div class="text-2xl font-bold tracking-tighter text-primary">
+<nav class="fixed top-0 w-full z-50 bg-white border-b border-primary/10">
+  <div class="flex justify-between items-center px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3 md:py-4 max-w-screen-2xl mx-auto w-full">
+    <!-- Logo -->
+    <div class="text-lg sm:text-xl md:text-2xl font-bold tracking-tighter text-primary whitespace-nowrap">
       <a routerLink="/">09.COMM</a>
     </div>
 
-    <!-- Desktop links -->
-    <div class="hidden md:flex items-center gap-8">
-      <a routerLink="/music" routerLinkActive="text-primary font-bold" class="text-slate-600 hover:text-primary transition-colors text-sm font-medium">Projets</a>
-      <a routerLink="/about" routerLinkActive="text-primary font-bold" class="text-slate-600 hover:text-primary transition-colors text-sm font-medium">Vision</a>
-      <div class="h-4 w-px bg-outline-variant/30"></div>
-      <a routerLink="/contact" class="text-slate-600 hover:text-primary text-sm font-medium">Se connecter</a>
-      <a routerLink="/contact" class="btn btn-primary px-4 py-2 text-xs">Candidature</a>
+    <!-- Desktop links - Centered (hidden on mobile) -->
+    <div class="hidden md:flex flex-1 justify-center items-center gap-6 lg:gap-8">
+      <a routerLink="/music" routerLinkActive="text-primary font-bold" class="text-text-secondary hover:text-primary transition-colors text-xs sm:text-sm md:text-base font-medium">Projets</a>
+      <a routerLink="/about" routerLinkActive="text-primary font-bold" class="text-text-secondary hover:text-primary transition-colors text-xs sm:text-sm md:text-base font-medium">Vision</a>
     </div>
 
-    <!-- Mobile menu button -->
-    <div class="md:hidden">
-      <button (click)="toggleMenu()" aria-label="Menu" class="p-2 rounded-md text-slate-800 hover:bg-primary/5 transition-colors">
-        <span class="material-symbols-outlined">{{ menuOpen ? 'close' : 'menu' }}</span>
-      </button>
+    <!-- Right section: Separator + Auth Button or Profile Dropdown (All devices) -->
+    <div class="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 relative">
+      <!-- Separator (desktop only) -->
+      <div class="hidden md:block h-4 w-px bg-primary/20"></div>
+      
+      <!-- If NOT authenticated: Show Login Button -->
+      <ng-container *ngIf="!isAuthenticated">
+        <a routerLink="/login" class="px-3 sm:px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-lg bg-primary text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-primary-dark transition-all duration-200 active:scale-95 whitespace-nowrap">Se connecter</a>
+      </ng-container>
+      
+      <!-- If authenticated: Show Profile Dropdown (All devices) -->
+      <ng-container *ngIf="isAuthenticated">
+        <div class="relative">
+          <!-- Profile Button -->
+          <button 
+            (click)="toggleProfileDropdown()"
+            class="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-4 py-2 md:py-2.5 rounded-lg hover:bg-primary/5 transition-colors border border-primary/20"
+            [class.bg-primary/5]="profileDropdownOpen"
+          >
+            <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs sm:text-sm font-bold">
+              {{ userName.charAt(0) }}
+            </div>
+            <span class="text-xs sm:text-sm text-text-primary font-medium hidden sm:block">{{ userName }}</span>
+            <span class="material-symbols-outlined text-lg transition-transform duration-200" [style.transform]="profileDropdownOpen ? 'rotate(180deg)' : 'rotate(0)'">expand_more</span>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div 
+            *ngIf="profileDropdownOpen"
+            class="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-white border border-primary/10 rounded-lg shadow-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+            (clickOutside)="closeProfileDropdown()"
+          >
+            <!-- Profile Info -->
+            <div class="px-4 py-4 border-b border-primary/10">
+              <p class="text-xs sm:text-sm font-bold text-text-primary">{{ userName }}</p>
+              <p class="text-xs text-text-secondary truncate">{{ userEmail }}</p>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="py-2">
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
+                <span class="material-symbols-outlined text-lg">person</span>
+                <span class="hidden sm:inline">Mon Profil</span>
+                <span class="sm:hidden">Profil</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
+                <span class="material-symbols-outlined text-lg">settings</span>
+                <span class="hidden sm:inline">Paramètres</span>
+                <span class="sm:hidden">Config</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
+                <span class="material-symbols-outlined text-lg">folder</span>
+                <span class="hidden sm:inline">Mes Projets</span>
+                <span class="sm:hidden">Projets</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span class="hidden sm:inline">Support</span>
+                <span class="sm:hidden">Aide</span>
+              </a>
+            </div>
+
+            <!-- Logout -->
+            <div class="border-t border-primary/10 py-2">
+              <button 
+                (click)="logout()"
+                class="w-full flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+              >
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span class="hidden sm:inline">Se déconnecter</span>
+                <span class="sm:hidden">Déconnecter</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 
   <div class="h-px w-full bg-gradient-to-r from-transparent via-primary/10 to-transparent"></div>
-
-  <!-- Mobile menu panel -->
-  <div *ngIf="menuOpen" class="md:hidden bg-white border-t border-outline-variant/10 shadow-xl animate-in slide-in-from-top-2 duration-200">
-    <div class="px-4 py-6 space-y-4">
-      <a (click)="toggleMenu()" routerLink="/music" class="block text-xl font-semibold text-slate-700 hover:text-primary">Projets</a>
-      <a (click)="toggleMenu()" routerLink="/about" class="block text-xl font-semibold text-slate-700 hover:text-primary">Vision</a>
-      <a (click)="toggleMenu()" routerLink="/contact" class="block text-xl font-semibold text-slate-700 hover:text-primary">Se connecter</a>
-      <div class="pt-4">
-        <a (click)="toggleMenu()" routerLink="/contact" class="btn btn-primary w-full py-4">Lancer un projet</a>
-      </div>
-    </div>
-  </div>
 </nav>

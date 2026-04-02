@@ -68,3 +68,52 @@
   gap: 16px;
   align-items: center;
 }
+
+/* Profile Dropdown Styles */
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: dropdownSlide 0.2s ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.slide-in-from-top-2 {
+  /* Already handled by animate-in */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Profile button styles */
+button:has(+ div[style*="animate-in"]) {
+  background-color: rgba(47, 111, 111, 0.05);
+  border-color: rgba(47, 111, 111, 0.3);
+}
+
+/* Dropdown menu hover effects */
+.relative a:hover {
+  background-color: rgba(47, 111, 111, 0.03);
+}
+
+/* Avatar gradient */
+.bg-gradient-to-br {
+  background: linear-gradient(135deg, rgba(47, 111, 111, 1), rgba(122, 62, 157, 1));
+}
