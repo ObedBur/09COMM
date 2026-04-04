@@ -1,8 +1,12 @@
 {
+  "version": 2,
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/09COMM",
+  "outputDirectory": "dist/09COMM/browser",
   "framework": "angular",
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/render"
+    }
+  ]
 }
