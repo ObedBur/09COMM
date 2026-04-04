@@ -18,7 +18,7 @@
   @apply w-full;
 }
 
-/* Active State for Angular routerLinkActive */
+
 .nav-link.active {
   @apply text-primary font-bold;
 }
