@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgIf, ClickOutsideDirective],
+  imports: [RouterLink, RouterLinkActive, NgIf, NgTemplateOutlet, ClickOutsideDirective],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 })

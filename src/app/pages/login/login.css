@@ -91,9 +91,57 @@ button[type="submit"]:hover {
   animation: slideInLeft 0.6s ease-out;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  /* Ensure form doesn't overflow on small devices */
+  form {
+    margin-bottom: 0;
+  }
+
+  input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  button[type="submit"] {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Better spacing on mobile */
+  .flex.items-center.gap-2 {
+    gap: 0.5rem;
+  }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 641px) and (max-width: 1023px) {
   main {
     animation: fadeInUp 0.6s ease-out 0.1s both;
   }
+}
+
+/* Desktop responsiveness */
+@media (min-width: 1024px) {
+  main {
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+  }
+
+  /* Ensure left panel scrolls if needed */
+  .lg\:w-1\/2:first-child {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+}
+
+/* Prevent layout shift */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure all elements are visible */
+input,
+button,
+label {
+  -webkit-appearance: none;
+  appearance: none;
 }

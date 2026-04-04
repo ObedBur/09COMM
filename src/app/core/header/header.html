@@ -1,94 +1,116 @@
-<nav class="fixed top-0 w-full z-50 bg-white border-b border-primary/10">
-  <div class="flex justify-between items-center px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3 md:py-4 max-w-screen-2xl mx-auto w-full">
+<header 
+  class="fixed top-0 left-0 right-0 z-50 p-5 bg-white/75 backdrop-blur-lg border-b border-primary/10 transition-all duration-300"
+  [class.py-2]="profileDropdownOpen"
+  [class.py-4]="!profileDropdownOpen"
+>
+  <div class="container-custom flex items-center justify-between">
     <!-- Logo -->
-    <div class="text-lg sm:text-xl md:text-2xl font-bold tracking-tighter text-primary whitespace-nowrap">
-      <a routerLink="/">09.COMM</a>
-    </div>
+    <a routerLink="/" class="flex items-center gap-2 group decoration-none">
+      <span class="text-xl md:text-2xl font-black text-primary tracking-tighter group-hover:scale-105 transition-transform">09COMM</span>
+    </a>
 
-    <!-- Desktop links - Centered (hidden on mobile) -->
-    <div class="hidden md:flex flex-1 justify-center items-center gap-6 lg:gap-8">
-      <a routerLink="/music" routerLinkActive="text-primary font-bold" class="text-text-secondary hover:text-primary transition-colors text-xs sm:text-sm md:text-base font-medium">Projets</a>
-      <a routerLink="/about" routerLinkActive="text-primary font-bold" class="text-text-secondary hover:text-primary transition-colors text-xs sm:text-sm md:text-base font-medium">Vision</a>
-    </div>
+    <!-- Desktop Navigation Links (Visible only on Desktop/Tablet) -->
+    <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+      <a routerLink="/home" routerLinkActive="text-primary after:scale-x-100" class="nav-link">Accueil</a>
+      <a routerLink="/projects" routerLinkActive="text-primary after:scale-x-100" class="nav-link">Projets</a>
+      <a routerLink="/vision" routerLinkActive="text-primary after:scale-x-100" class="nav-link">Vision</a>
+    </nav>
 
-    <!-- Right section: Separator + Auth Button or Profile Dropdown (All devices) -->
+    <!-- Right section: Unified Entry Point (Mobile) & Profile/Auth (Desktop) -->
     <div class="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 relative">
-      <!-- Separator (desktop only) -->
-      <div class="hidden md:block h-4 w-px bg-primary/20"></div>
       
-      <!-- If NOT authenticated: Show Login Button -->
-      <ng-container *ngIf="!isAuthenticated">
-        <a routerLink="/login" class="px-3 sm:px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-lg bg-primary text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-primary-dark transition-all duration-200 active:scale-95 whitespace-nowrap">Se connecter</a>
-      </ng-container>
-      
-      <!-- If authenticated: Show Profile Dropdown (All devices) -->
-      <ng-container *ngIf="isAuthenticated">
-        <div class="relative">
-          <!-- Profile Button -->
-          <button 
-            (click)="toggleProfileDropdown()"
-            class="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-4 py-2 md:py-2.5 rounded-lg hover:bg-primary/5 transition-colors border border-primary/20"
-            [class.bg-primary/5]="profileDropdownOpen"
-          >
-            <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs sm:text-sm font-bold">
-              {{ userName.charAt(0) }}
-            </div>
-            <span class="text-xs sm:text-sm text-text-primary font-medium hidden sm:block">{{ userName }}</span>
-            <span class="material-symbols-outlined text-lg transition-transform duration-200" [style.transform]="profileDropdownOpen ? 'rotate(180deg)' : 'rotate(0)'">expand_more</span>
-          </button>
+      <!-- Desktop Login (Visible only when NOT authenticated and on desktop) -->
+      <a *ngIf="!isAuthenticated" routerLink="/login" class="hidden md:flex px-4 md:px-5 py-2 md:py-2.5 rounded-lg bg-primary text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-primary-dark transition-all duration-200 active:scale-95 whitespace-nowrap">
+        Se connecter
+      </a>
 
-          <!-- Dropdown Menu -->
-          <div 
-            *ngIf="profileDropdownOpen"
-            class="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-white border border-primary/10 rounded-lg shadow-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200"
-            (clickOutside)="closeProfileDropdown()"
-          >
-            <!-- Profile Info -->
-            <div class="px-4 py-4 border-b border-primary/10">
-              <p class="text-xs sm:text-sm font-bold text-text-primary">{{ userName }}</p>
-              <p class="text-xs text-text-secondary truncate">{{ userEmail }}</p>
-            </div>
+      <!-- Case 1: USER AUTHENTICATED (Visible Everywhere) -->
+      <div class="relative" *ngIf="isAuthenticated">
+        <button 
+          (click)="toggleProfileDropdown()"
+          class="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-4 py-2 md:py-2.5 rounded-lg hover:bg-primary/5 transition-colors border border-primary/20"
+          [class.bg-primary/5]="profileDropdownOpen"
+        >
+          <div class="w-7 h-7 sm:w-8 md:w-9 sm:h-8 md:h-9 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs sm:text-sm font-bold">
+            {{ userName.charAt(0) }}
+          </div>
+          <span class="text-xs sm:text-sm text-text-primary font-medium hidden sm:block">
+            {{ userName }}
+          </span>
+          <span class="material-symbols-outlined text-lg transition-transform duration-200" [style.transform]="profileDropdownOpen ? 'rotate(180deg)' : 'rotate(0)'">expand_more</span>
+        </button>
 
-            <!-- Menu Items -->
-            <div class="py-2">
-              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
-                <span class="material-symbols-outlined text-lg">person</span>
-                <span class="hidden sm:inline">Mon Profil</span>
-                <span class="sm:hidden">Profil</span>
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
-                <span class="material-symbols-outlined text-lg">settings</span>
-                <span class="hidden sm:inline">Paramètres</span>
-                <span class="sm:hidden">Config</span>
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
-                <span class="material-symbols-outlined text-lg">folder</span>
-                <span class="hidden sm:inline">Mes Projets</span>
-                <span class="sm:hidden">Projets</span>
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-colors">
-                <span class="material-symbols-outlined text-lg">help</span>
-                <span class="hidden sm:inline">Support</span>
-                <span class="sm:hidden">Aide</span>
-              </a>
-            </div>
+        <ng-container *ngTemplateOutlet="dropdownContent"></ng-container>
+      </div>
 
-            <!-- Logout -->
-            <div class="border-t border-primary/10 py-2">
-              <button 
-                (click)="logout()"
-                class="w-full flex items-center gap-3 px-4 py-2.5 text-xs sm:text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
-              >
-                <span class="material-symbols-outlined text-lg">logout</span>
-                <span class="hidden sm:inline">Se déconnecter</span>
-                <span class="sm:hidden">Déconnecter</span>
+      <!-- Case 2: GUEST USER (MOBILE ONLY) -->
+      <!-- Explicitly hidden on medium screens (768px+) and up -->
+      <div class="relative md:hidden" *ngIf="!isAuthenticated">
+        <button 
+          (click)="toggleProfileDropdown()"
+          class="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-4 py-2 md:py-2.5 rounded-lg hover:bg-primary/5 transition-colors border border-primary/20"
+          [class.bg-primary/5]="profileDropdownOpen"
+        >
+          <div class="w-7 h-7 sm:w-8 md:w-9 sm:h-8 md:h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-lg sm:text-xl">person</span>
+          </div>
+          <span class="text-xs sm:text-sm text-text-primary font-medium hidden sm:block">Menu</span>
+          <span class="material-symbols-outlined text-lg transition-transform duration-200" [style.transform]="profileDropdownOpen ? 'rotate(180deg)' : 'rotate(0)'">expand_more</span>
+        </button>
+
+        <ng-container *ngTemplateOutlet="dropdownContent"></ng-container>
+      </div>
+
+      <!-- Reusable Dropdown Template -->
+      <ng-template #dropdownContent>
+        <div 
+          *ngIf="profileDropdownOpen"
+          class="absolute top-full right-0 mt-2 w-56 sm:w-64 bg-white border border-primary/10 rounded-lg shadow-xl z-50 animate-in fade-in duration-200 overflow-hidden"
+          (clickOutside)="closeProfileDropdown()"
+        >
+          <!-- User Profile Brief (if authenticated) -->
+          <div *ngIf="isAuthenticated" class="px-4 py-4 border-b border-primary/10 bg-primary/5">
+            <p class="text-xs sm:text-sm font-bold text-text-primary">{{ userName }}</p>
+            <p class="text-xs text-text-secondary truncate">{{ userEmail }}</p>
+          </div>
+
+          <!-- NAVIGATION (Mobile Only) -->
+          <div class="md:hidden py-3 border-b border-primary/10">
+            <p class="px-4 pb-2 text-[10px] font-bold text-primary/40 uppercase tracking-widest">Navigation Site</p>
+            <a routerLink="/home" class="dropdown-item" (click)="closeProfileDropdown()">
+              <span class="material-symbols-outlined text-lg">home</span> Accueil
+            </a>
+            <a routerLink="/projects" class="dropdown-item" (click)="closeProfileDropdown()">
+              <span class="material-symbols-outlined text-lg">dashboard</span> Projets
+            </a>
+            <a routerLink="/vision" class="dropdown-item" (click)="closeProfileDropdown()">
+              <span class="material-symbols-outlined text-lg">visibility</span> Vision
+            </a>
+          </div>
+
+          <!-- Actions -->
+          <div class="py-2">
+            <ng-container *ngIf="isAuthenticated; else guestActions">
+              <a class="dropdown-item">
+                <span class="material-symbols-outlined text-lg">person</span> Mon Profil
+              </a>
+              <a class="dropdown-item">
+                <span class="material-symbols-outlined text-lg">settings</span> Paramètres
+              </a>
+              <button (click)="logout()" class="dropdown-item text-red-500 hover:bg-red-50">
+                <span class="material-symbols-outlined text-lg">logout</span> Déconnexion
               </button>
-            </div>
+            </ng-container>
+
+            <ng-template #guestActions>
+              <a routerLink="/login" class="dropdown-item text-primary font-bold" (click)="closeProfileDropdown()">
+                <span class="material-symbols-outlined text-lg">login</span> Se connecter
+              </a>
+            </ng-template>
           </div>
         </div>
-      </ng-container>
+      </ng-template>
+
     </div>
   </div>
-
-  <div class="h-px w-full bg-gradient-to-r from-transparent via-primary/10 to-transparent"></div>
-</nav>
+</header>

@@ -1,75 +1,38 @@
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.85); /* Fond blanc légèrement transparent */
-  backdrop-filter: blur(12px); /* Effet flou de verre */
-  border-bottom: 1px solid var(--color-border);
-}
-
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 16px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.logo-link {
-  color: var(--color-secondary); /* Text Gris Anthracite par défaut */
-  transition: color var(--transition-speed) ease;
-}
-
-.logo-link:hover {
-  color: var(--color-primary); /* Transition Orange Éclatant */
-}
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
+@reference "../../../styles.css";
+/* Header Component Styles - 09COMM */
 
 .nav-link {
-  font-weight: 600;
-  color: var(--color-secondary);
-  position: relative;
-  transition: color var(--transition-speed) ease;
+  @apply relative text-xs sm:text-sm md:text-base font-medium text-text-secondary transition-colors duration-300 py-1;
 }
 
 .nav-link::after {
   content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--color-primary);
-  transition: width var(--transition-speed) ease;
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out;
 }
 
-.nav-link:hover, .nav-link.active {
-  color: var(--color-primary);
+.nav-link:hover {
+  @apply text-primary;
 }
 
-.nav-link:hover::after, .nav-link.active::after {
-  width: 100%;
+.nav-link:hover::after {
+  @apply w-full;
 }
 
-.nav-actions {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+/* Active State for Angular routerLinkActive */
+.nav-link.active {
+  @apply text-primary font-bold;
 }
 
-/* Profile Dropdown Styles */
+.nav-link.active::after {
+  @apply w-full;
+}
+
+/* Dropdown Menu Items */
+.dropdown-item {
+  @apply flex items-center gap-3 px-4 py-3 text-xs sm:text-sm text-text-primary hover:bg-primary/5 transition-all duration-200 w-full text-left border-l-2 border-transparent hover:border-primary active:bg-primary/10;
+}
+
+/* Profile Dropdown Animations */
 @keyframes dropdownSlide {
   from {
     opacity: 0;
@@ -82,38 +45,11 @@
 }
 
 .animate-in {
-  animation: dropdownSlide 0.2s ease-out;
+  animation: dropdownSlide 0.2s ease-out forwards;
 }
 
-.fade-in {
-  animation: fadeIn 0.2s ease-out;
-}
-
-.slide-in-from-top-2 {
-  /* Already handled by animate-in */
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Profile button styles */
-button:has(+ div[style*="animate-in"]) {
-  background-color: rgba(47, 111, 111, 0.05);
-  border-color: rgba(47, 111, 111, 0.3);
-}
-
-/* Dropdown menu hover effects */
-.relative a:hover {
-  background-color: rgba(47, 111, 111, 0.03);
-}
-
-/* Avatar gradient */
-.bg-gradient-to-br {
-  background: linear-gradient(135deg, rgba(47, 111, 111, 1), rgba(122, 62, 157, 1));
+/* Glassmorphism fallback if Tailwind classes aren't enough or for older browsers */
+nav.fixed {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
