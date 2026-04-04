@@ -1,6 +1,9 @@
 {
   "name": "09-comm",
   "version": "0.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
