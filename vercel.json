@@ -1,26 +1,15 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/09COMM/browser",
-  "framework": "angular",
-  "nodejs": "20.x",
+  "outputDirectory": "dist/09COMM",
+  "framework": "angular-ssr",
   "env": {
     "NODE_ENV": "production"
   },
   "functions": {
-    "api/render.ts": {
+    "api/**/*.ts": {
       "runtime": "nodejs20.x",
       "memory": 1024,
       "maxDuration": 60
     }
-  },
-  "rewrites": [
-    {
-      "source": "/(.*?)\\.(?:js|css|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot)",
-      "destination": "/$1.${ext}"
-    },
-    {
-      "source": "/(?!api/).*",
-      "destination": "/api/render"
-    }
-  ]
+  }
 }
